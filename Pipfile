@@ -8,6 +8,12 @@ verify_ssl = true
 [packages]
 django = "*"
 psycopg2-binary = "*"
+python-dotenv = "*"
+black = "==19.3b0"
+dj-database-url = "*"
+gunicorn = "*"
+whitenoise = "*"
+slacker = "*"
 
 [requires]
 python_version = "3.7"
