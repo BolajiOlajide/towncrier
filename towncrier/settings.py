@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'towncrierapp',
 ]
 
 MIDDLEWARE = [
@@ -130,5 +131,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
 
-SLACK_API_TOKEN = os.getenv('SLACK_API_TOKEN')
+SLACK_OAUTH_TOKEN = os.getenv('SLACK_OAUTH_TOKEN')
+SLACK_BOT_TOKEN = os.getenv('SLACK_BOT_TOKEN')
 SLACK_GROUP = os.getenv('SLACK_GROUP')

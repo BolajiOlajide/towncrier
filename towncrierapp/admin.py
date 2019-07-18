@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from towncrierapp.models import Message
+from towncrierapp.models import Message, SlackUser
 from django.contrib.auth.models import User
 
 
@@ -10,13 +10,18 @@ class TownCrierAdminSite(admin.AdminSite):
 
 
 class MessageAdmin(admin.ModelAdmin):
-    list_display = ('word',)
+    list_display = ('message',)
 
 
-class UserAdminSite(admin.ModelAdmin):
+class UserAdmin(admin.ModelAdmin):
     readonly_fields = ('password',)
 
 
+class SlackUserAdmin(admin.ModelAdmin):
+    exclude = ('password',)
+
+
 admin_site = TownCrierAdminSite(name='admin')
-admin_site.register(User, UserAdminSite)
+admin_site.register(User, UserAdmin)
 admin_site.register(Message, MessageAdmin)
+admin_site.register(SlackUser, SlackUserAdmin)
