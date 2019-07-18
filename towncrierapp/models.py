@@ -4,7 +4,6 @@ from django.conf import settings
 from slacker import Slacker
 
 slack_client = Slacker(settings.SLACK_BOT_TOKEN)
-print(settings.SLACK_BOT_TOKEN)
 
 
 class SlackUserManager(models.Manager):
@@ -30,11 +29,8 @@ class SlackUser(AbstractBaseUser):
     """
     A class that represents a `SlackUser` account
     """
-    id = models.AutoField(unique=True, primary_key=True)
-    slack_id = models.CharField(unique=True, max_length=60)
-    firstname = models.CharField(max_length=60)
-    lastname = models.CharField(max_length=60)
-    email = models.CharField(max_length=100, blank=True)
+    slack_id = models.CharField(unique=True, max_length=60, null=False, primary_key=True)
+    handle = models.CharField(max_length=100, blank=True, null=False)
     isActive = models.BooleanField(default=True, null=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -46,14 +42,29 @@ class SlackUser(AbstractBaseUser):
         """
         return cls.objects.create(**user_data_dict)
 
+    @classmethod
+    def upsert(cls, **kwargs):
+        if not kwargs:
+            raise ValueError('You must pass in valid kwargs')
+        
+        slack_id = kwargs.get('slack_id')
+        isActive = kwargs.get('isActive')
+        handle = kwargs.get('handle')
+        user = cls.objects.filter(slack_id=slack_id).first()
+        if user:
+            user.isActive = isActive
+            user.handle = handle
+            return user.save()
+        return cls.create(kwargs)
+
     def __repr__(self):
-        return f'User - {self.firstname}'
+        return f'User - {self.handle}'
 
     def __str__(self):
-        return f'User - {self.firstname}'
+        return f'User - {self.handle}'
 
     def __unicode__(self):
-        return f'User - {self.firstname}'
+        return f'User - {self.handle}'
 
 
 # Create your models here.
