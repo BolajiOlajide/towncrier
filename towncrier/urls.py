@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include, static
+from django.conf import settings
 
 from towncrierapp.admin import admin_site
 from towncrierapp.views import bot_actions
 
 urlpatterns = [
     path('admin/', admin_site.urls),
-    path('bot/', bot_actions)
+    path('bot/', bot_actions),
+    path(r'mdeditor/', include('mdeditor.urls'))
 ]
+
+if settings.DEBUG:
+    # static files (images, css, javascript, etc.)
+    urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

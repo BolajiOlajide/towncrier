@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, User
+from mdeditor.fields import MDTextField
 
 from towncrierapp.enums import ADD_MESSAGE, PUBLISH_MESSAGE
 
@@ -70,7 +71,7 @@ class Message(models.Model):
     A model that represents a message
     """
     id = models.AutoField(unique=True, primary_key=True)
-    message = models.TextField(null=False)
+    message = MDTextField()
     published = models.BooleanField(null=False, default=False)
     created_at = models.DateField(auto_now_add=True)
     updated_at = models.DateField(auto_now=True)
@@ -95,17 +96,15 @@ class ActivityLog(models.Model):
     )
 
     id = models.AutoField(unique=True, primary_key=True)
-    operations = models.CharField(max_length=20, choices=OPERATIONS, null=False)
-
-    published = models.BooleanField(null=False, default=False)
-    created_at = models.DateField(auto_now_add=True)
-    updated_at = models.DateField(auto_now=True)
+    operation = models.CharField(max_length=20, choices=OPERATIONS, null=False)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
 
     def __repr__(self):
-        return f'Message - {self.id}'
+        return f'ActivityLog - {self.id}'
 
     def __str__(self):
-        return f'Message - {self.id}'
+        return f'ActivityLog - {self.id}'
 
     def __unicode__(self):
-        return f'Message - {self.id}'
+        return f'ActivityLog - {self.id}'

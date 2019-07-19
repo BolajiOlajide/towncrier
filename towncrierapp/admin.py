@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from towncrierapp.models import Message, SlackUser
-from towncrierapp.utils import send_slack_message
+from towncrierapp.utils import send_slack_message, save_activity
 
 
 class TownCrierAdminSite(admin.AdminSite):
@@ -12,9 +12,11 @@ class TownCrierAdminSite(admin.AdminSite):
 class MessageAdmin(admin.ModelAdmin):
     actions = ['publish_message']
     list_display = ('message', 'published')
+    readonly_fields = ('published',)
 
     def publish_message(self, request, queryset):
-        send_slack_message(queryset)
+        message = send_slack_message(queryset)
+        save_activity(request, message)
         queryset.update(published=True)
     publish_message.short_description = 'Publish message via TownCrier'
 

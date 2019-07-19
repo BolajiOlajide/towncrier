@@ -15,6 +15,7 @@ gunicorn = "*"
 whitenoise = "*"
 slacker = "*"
 requests = "*"
+django-mdeditor = "*"
 
 [requires]
 python_version = "3.7"
