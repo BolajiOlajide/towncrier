@@ -46,3 +46,7 @@ _If you wish to opt in at any point in time, feel free to use the slash command_
 """
 
   return JsonResponse({'text': message})
+
+
+def homepage(request):
+  return JsonResponse({'text': 'Welcome to towncrier!'})

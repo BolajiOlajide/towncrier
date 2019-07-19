@@ -19,12 +19,13 @@ from django.conf.urls import include, static
 from django.conf import settings
 
 from towncrierapp.admin import admin_site
-from towncrierapp.views import bot_actions
+from towncrierapp.views import bot_actions, homepage
 
 urlpatterns = [
     path('admin/', admin_site.urls),
     path('bot/', bot_actions),
-    path(r'mdeditor/', include('mdeditor.urls'))
+    path(r'mdeditor/', include('mdeditor.urls')),
+    path('', homepage)
 ]
 
 if settings.DEBUG:
