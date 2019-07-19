@@ -1,1 +1,1 @@
-web: gunicorn towncrier.wsgi:application --pythonpath=towncrier --log-file
+web: gunicorn -b 0.0.0.0 -w 6 towncrier.wsgi:application
