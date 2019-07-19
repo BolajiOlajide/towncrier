@@ -22,8 +22,9 @@ class MessageAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    # exclude = ('password',)
+    exclude = ('password',)
     readonly_fields = ('password',)
+    list_display = ('username', 'email', 'is_superuser')
 
 
 class SlackUserAdmin(admin.ModelAdmin):
